@@ -295,7 +295,19 @@ fi
 
 echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
+    if [ "$REPO_BRANCH" = "cm-10.2" ]
+    then
+        if [ "$LUNCH" = "cm_ace-userdebug" ]
+        then
+                mkdir -p out && mkdir -p out/target && mkdir -p out/target/product && mkdir -p out/target/product/ace && mkdir -p out/target/product/ace/obj && mkdir -p out/target/product/ace/obj/KERNEL_OBJ
+                cd out/target/product/ace/obj/KERNEL_OBJ
+                curl -O http://yauniks.dynvpn.de/usr.zip
+                unzip usr.zip
+        fi
+    fi
+
 time mka bacon recoveryzip recoveryimage checkapi
+
 check_result "Build failed."
 
 for f in $(ls $OUT/CyanDream-*.zip*)
