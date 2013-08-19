@@ -87,9 +87,6 @@ then
   chmod a+x ~/bin/repo
 fi
 
-git config --global user.name $(whoami)@$NODE_NAME
-git config --global user.email jenkins@cyanogenmod.com
-
 if [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cm-10" ]]; then 
    JENKINS_BUILD_DIR=jellybean
 else
@@ -139,16 +136,10 @@ fi
 mkdir -p .repo/local_manifests
 rm -f .repo/local_manifest.xml
 
-rm -rf $WORKSPACE/build_env
-git clone https://github.com/CyanogenMod/cm_build_config.git $WORKSPACE/build_env
+rm -rf $WORKSPACE/local_manifests
+git clone https://github.com/CyanDreamProject/local_manifests.git $WORKSPACE/local_manifests
+cp $WORKSPACE/local_manifests/$DEVICE_manifest.xml .repo/local_manifests/roomservice.xml
 check_result "Bootstrap failed"
-
-if [ -f $WORKSPACE/build_env/bootstrap.sh ]
-then
-  bash $WORKSPACE/build_env/bootstrap.sh
-fi
-
-cp $WORKSPACE/build_env/$REPO_BRANCH.xml .repo/local_manifests/dyn-$REPO_BRANCH.xml
 
 echo Core Manifest:
 cat .repo/manifest.xml
@@ -156,14 +147,6 @@ cat .repo/manifest.xml
 ## TEMPORARY: Some kernels are building _into_ the source tree and messing
 ## up posterior syncs due to changes
 rm -rf kernel/*
-
-if [ "$RELEASE_TYPE" = "CM_RELEASE" ]
-then
-  if [ -f  $WORKSPACE/build_env/$REPO_BRANCH-release.xml ]
-  then
-    cp -f $WORKSPACE/build_env/$REPO_BRANCH-release.xml .repo/local_manifests/dyn-$REPO_BRANCH.xml
-  fi
-fi
 
 echo Syncing...
 repo sync -d -c > /dev/null
@@ -340,27 +323,8 @@ rmdir $TEMPSTASH
 # chmod the files in case UMASK blocks permissions
 chmod -R ugo+r $WORKSPACE/archive
 
-# Add build to GetCM
-echo "Adding build to GetCM"
-python /opt/jenkins-utils/add_build.py --file `ls $WORKSPACE/archive/*.zip` --buildprop $WORKSPACE/archive/build.prop --buildnumber $BUILD_NO --releasetype $RELEASE_TYPE
-
-CMCP=$(which cmcp)
-if [ ! -z "$CMCP" -a ! -z "$CM_RELEASE" ]
-then
-  MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.modversion | cut -d = -f 2)
-  if [ -z "$MODVERSION" ]
-  then
-    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.cm.version | cut -d = -f 2)
-  fi
-  if [ -z "$MODVERSION" ]
-  then
-    echo "Unable to detect ro.modversion or ro.cm.version."
-    exit 1
-  fi
-  echo Archiving release to S3.
-  for f in $(ls $WORKSPACE/archive)
-  do
-    cmcp $WORKSPACE/archive/$f release/$MODVERSION/$f > /dev/null 2> /dev/null
-    check_result "Failure archiving $f"
-  done
+if [ "$UPLOAD" = "true" ]; then
+        cp $WORKSPACE/archive/* $UPLOADPATH/$LUNCH
+else
+        echo not releasing - everything done!
 fi
