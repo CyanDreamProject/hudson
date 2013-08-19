@@ -35,9 +35,9 @@ then
   exit 1
 fi
 
-if [ -z "$LUNCH" ]
+if [ -z "$DEVICE" ]
 then
-  echo LUNCH not specified
+  echo DEVICE not specified
   exit 1
 fi
 
@@ -51,6 +51,7 @@ if [ -z "$SYNC_PROTO" ]
 then
   SYNC_PROTO=http
 fi
+export LUNCH=cm_$DEVICE-userdebug
 
 # colorization fix in Jenkins
 export CL_RED="\"\033[31m\""
