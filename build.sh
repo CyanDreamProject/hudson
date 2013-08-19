@@ -139,7 +139,7 @@ rm -f .repo/local_manifest.xml
 
 rm -rf $WORKSPACE/local_manifests
 git clone https://github.com/CyanDreamProject/local_manifests.git $WORKSPACE/local_manifests
-cp $WORKSPACE/local_manifests/$DEVICE_manifest.xml .repo/local_manifests/roomservice.xml
+cp -R $WORKSPACE/local_manifests/$DEVICE_manifest.xml .repo/local_manifests/roomservice.xml
 check_result "Bootstrap failed"
 
 echo Core Manifest:
