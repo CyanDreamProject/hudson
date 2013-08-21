@@ -206,7 +206,7 @@ repo manifest -o $WORKSPACE/archive/manifest.xml -r
 mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
 rmdir $TEMPSTASH
 
-rm -f $OUT/cyandream-*.zip*
+rm -f $OUT/CyanDream-*.zip*
 
 UNAME=$(uname)
 
@@ -298,7 +298,7 @@ echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 time mka bacon recoveryzip recoveryimage checkapi
 check_result "Build failed."
 
-for f in $(ls $OUT/cyandream-*.zip*)
+for f in $(ls $OUT/CyanDream-*.zip*)
 do
   ln $f $WORKSPACE/archive/$(basename $f)
 done
@@ -312,7 +312,7 @@ then
 fi
 
 # archive the build.prop as well
-ZIP=$(ls $WORKSPACE/archive/cyandream-*.zip)
+ZIP=$(ls $WORKSPACE/archive/CyanDream-*.zip)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
 
 # CORE: save manifest used for build (saving revisions as current HEAD)
