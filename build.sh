@@ -5,6 +5,7 @@ function check_result {
   then
     (repo forall -c "git reset --hard") >/dev/null
     rm -f .repo/local_manifests/dyn-*.xml
+    rm -f .repo/local_manifests/manifest.xml
     rm -f .repo/local_manifests/roomservice.xml
     echo $1
     exit 1
@@ -142,7 +143,7 @@ git clone https://github.com/CyanDreamProject/local_manifests.git $WORKSPACE/loc
 
 if [ -f $WORKSPACE/local_manifests/$DEVICE_manifest.xml ]
 then
-  cp $WORKSPACE/local_manifests/$DEVICE_manifest.xml .repo/local_manifests/roomservice.xml
+  cp $WORKSPACE/local_manifests/$DEVICE_manifest.xml .repo/local_manifests/manifest.xml
 else
   echo a local_manifest does not exist, skipping.
 fi
@@ -160,6 +161,8 @@ echo Syncing...
 repo sync -d -c > /dev/null
 check_result "repo sync failed."
 echo Sync complete.
+
+rm -f .repo/local_manifests/roomservice.xml
 
 if [ -f $WORKSPACE/hudson/$REPO_BRANCH-setup.sh ]
 then
@@ -317,7 +320,7 @@ unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
 
 # CORE: save manifest used for build (saving revisions as current HEAD)
 rm -f .repo/local_manifests/dyn-$REPO_BRANCH.xml
-rm -f .repo/local_manifests/roomservice.xml
+rm -f .repo/local_manifests/manifest.xml
 
 # Stash away other possible manifests
 TEMPSTASH=$(mktemp -d)
