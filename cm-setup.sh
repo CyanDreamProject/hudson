@@ -1,1 +1,1 @@
-vendor/cyandream/get-prebuilts
+vendor/cm/get-prebuilts
