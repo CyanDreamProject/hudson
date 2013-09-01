@@ -78,6 +78,8 @@ platform=`uname -s`
 if [ "$platform" = "Darwin" ]
 then
   export BUILD_MAC_SDK_EXPERIMENTAL=1
+  # creating a symlink...
+  ln -s /Library/Java/JavaVirtualMachines/jdk1.7.0_25.jdk/Contents/Home /Volumes/android/tools/hudson.model.JDK/Ubuntu
 fi
 
 REPO=$(which repo)
