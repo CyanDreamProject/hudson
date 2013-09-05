@@ -171,6 +171,11 @@ else
   $WORKSPACE/hudson/cm-setup.sh
 fi
 
+# workaround for devices that are not 100% supported by CyanDream
+echo creating symlink...
+rm -rf vendor/cm
+ln -s vendor/cyandream vendor/cm
+
 if [ -f .last_branch ]
 then
   LAST_BRANCH=$(cat .last_branch)
