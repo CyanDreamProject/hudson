@@ -158,6 +158,8 @@ cat .repo/manifest.xml
 ## TEMPORARY: Some kernels are building _into_ the source tree and messing
 ## up posterior syncs due to changes
 rm -rf kernel/*
+# delete symlink for vendor before sync
+rm -rf vendor/cm
 
 echo Syncing...
 repo sync -d -c > /dev/null
@@ -173,7 +175,6 @@ fi
 
 # workaround for devices that are not 100% supported by CyanDream
 echo creating symlink...
-rm -rf vendor/cm
 ln -s vendor/cyandream vendor/cm
 
 if [ -f .last_branch ]
