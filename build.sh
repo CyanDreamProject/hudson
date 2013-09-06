@@ -91,7 +91,7 @@ then
   chmod a+x ~/bin/repo
 fi
 
-if [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cm-10" ]]; then 
+if [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cd-4.3" ]]; then 
    JENKINS_BUILD_DIR=jellybean
 else
    JENKINS_BUILD_DIR=$REPO_BRANCH
@@ -123,7 +123,7 @@ repo init -u $SYNC_PROTO://github.com/CyanDreamProject/android.git -b $CORE_BRAN
 check_result "repo init failed."
 
 # make sure ccache is in PATH
-if [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cm-10" ]]
+if [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cd-4.3" ]]
 then
 export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
 export CCACHE_DIR=~/.jb_ccache
@@ -304,7 +304,7 @@ fi
 
 echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
-    if [ "$REPO_BRANCH" = "cm-10.2" ]
+    if [ "$REPO_BRANCH" = "cd-4.3" ]
     then
         if [ "$LUNCH" = "cm_ace-userdebug" ]
         then
