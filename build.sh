@@ -144,9 +144,9 @@ rm -f .repo/local_manifests/device.xml
 rm -rf $WORKSPACE/local_manifests
 git clone https://github.com/CyanDreamProject/local_manifests.git $WORKSPACE/local_manifests
 
-if [ -f $WORKSPACE/local_manifests/$DEVICE_manifest.xml ]
+if [ "$DEVICE" = "ace" ]
 then
-  cp $WORKSPACE/local_manifests/$DEVICE_manifest.xml .repo/local_manifests/device.xml
+  cp $WORKSPACE/local_manifests/ace_manifest.xml .repo/local_manifests/device.xml
 else
   echo a local_manifest does not exist, skipping.
 fi
