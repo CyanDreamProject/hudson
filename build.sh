@@ -139,13 +139,14 @@ fi
 
 mkdir -p .repo/local_manifests
 rm -f .repo/local_manifest.xml
+rm -f .repo/local_manifests/device.xml
 
 rm -rf $WORKSPACE/local_manifests
 git clone https://github.com/CyanDreamProject/local_manifests.git $WORKSPACE/local_manifests
 
 if [ -f $WORKSPACE/local_manifests/$DEVICE_manifest.xml ]
 then
-  cp $WORKSPACE/local_manifests/$DEVICE_manifest.xml .repo/local_manifests/roomservice.xml
+  cp $WORKSPACE/local_manifests/$DEVICE_manifest.xml .repo/local_manifests/device.xml
 else
   echo a local_manifest does not exist, skipping.
 fi
