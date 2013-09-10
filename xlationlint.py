@@ -18,7 +18,7 @@ except ImportError:
 
 for change in sys.argv[1:]:
     print(change)
-    f = urllib.request.urlopen('http://review.cyanogenmod.org/query?q=change:%s' % change)
+    f = urllib.request.urlopen('http://yauniks.dynvpn.de:8082/query?q=change:%s' % change)
     d = f.read().decode()
     # gerrit doesnt actually return json. returns two json blobs, separate lines. bizarre.
     d = d.split('\n')[0]
