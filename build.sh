@@ -165,6 +165,12 @@ rm -rf vendor/cm
 echo Syncing...
 repo sync -d -c > /dev/null
 check_result "repo sync failed."
+if [ -z "$SYNC_PROTO" ]
+then
+  echo ""
+else
+  repo download $GERRIT_PROJECT $GERRIT_CHANGE_NUMBER/$GERRIT_PATCHSET_NUMBER
+fi
 echo Sync complete.
 
 if [ -f $WORKSPACE/hudson/$REPO_BRANCH-setup.sh ]
