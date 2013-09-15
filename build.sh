@@ -51,7 +51,7 @@ if [ -z "$SYNC_PROTO" ]
 then
   SYNC_PROTO=http
 fi
-export LUNCH=cm_$DEVICE-userdebug
+export LUNCH=cd_$DEVICE-userdebug
 
 # colorization fix in Jenkins
 export CL_RED="\"\033[31m\""
@@ -343,10 +343,8 @@ rmdir $TEMPSTASH
 chmod -R ugo+r $WORKSPACE/archive
 
 # Add build to GetCM
-if [ "$JOB_NAME" = "android" ]; then
-    echo "Adding build to GetCD"
-    ssh yauniks.dynvpn.de getcd.addfile --file `ls $WORKSPACE/archive/*.zip` --buildprop $WORKSPACE/archive/build.prop --buildnumber $BUILD_NO --releasetype $RELEASE_TYPE
-fi
+echo "Adding build to GetCD"
+ssh yauniks.dynvpn.de getcd.addfile --file `ls $WORKSPACE/archive/*.zip` --buildprop $WORKSPACE/archive/build.prop --buildnumber $BUILD_NO --releasetype $RELEASE_TYPE
 
 CMCP=$(which cmcp)
 if [ ! -z "$CMCP" -a ! -z "$CM_RELEASE" ]
