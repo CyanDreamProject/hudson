@@ -165,7 +165,7 @@ rm -rf vendor/cm
 echo Syncing...
 repo sync -d -c > /dev/null
 check_result "repo sync failed."
-if [ -z "$SYNC_PROTO" ]
+if [ -z "$GERRIT_CHANGE_NUMBER" ]
 then
   echo ""
 else
