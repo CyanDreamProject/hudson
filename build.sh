@@ -170,6 +170,7 @@ then
   echo ""
 else
   repo download $GERRIT_PROJECT $GERRIT_CHANGE_NUMBER/$GERRIT_PATCHSET_NUMBER
+  export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER
 fi
 echo Sync complete.
 
@@ -233,11 +234,16 @@ fi
 
 if [ "$RELEASE_TYPE" = "CM_NIGHTLY" ]
 then
-  if [ "$REPO_BRANCH" = "gingerbread" ]
+  if [ -z "$GERRIT_CHANGE_NUMBER" ]
   then
-    export CYANOGEN_NIGHTLY=true
+    if [ "$REPO_BRANCH" = "gingerbread" ]
+    then
+      export CYANOGEN_NIGHTLY=true
+    else
+      export CM_NIGHTLY=true
+    fi
   else
-    export CM_NIGHTLY=true
+    export CM_EXPERIMENTAL=true
   fi
 elif [ "$RELEASE_TYPE" = "CM_EXPERIMENTAL" ]
 then
