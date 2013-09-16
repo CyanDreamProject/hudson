@@ -147,6 +147,9 @@ git clone https://github.com/CyanDreamProject/local_manifests.git $WORKSPACE/loc
 if [ "$DEVICE" = "ace" ]
 then
   cp $WORKSPACE/local_manifests/ace_manifest.xml .repo/local_manifests/device.xml
+elif [ "$DEVICE" = "bravo" ]
+then
+  cp $WORKSPACE/local_manifests/bravo_manifest.xml .repo/local_manifests/device.xml
 else
   echo a local_manifest does not exist, skipping.
 fi
