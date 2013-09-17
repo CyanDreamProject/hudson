@@ -49,7 +49,7 @@ for change in sys.argv[1:]:
     while 0 != os.system('cd %s ; git fetch http://yauniks.dynvpn.de:8082/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count + 1)):
         patch_count = patch_count + 1
 
-    while 0 == os.system('cd %s ; git fetch http://yauniks.dynvpn.de:8082/%s refs/changes/0%s/%s/%s' % (project, data['project'], junk, number, patch_count + 1)):
+    while 0 == os.system('cd %s ; git fetch http://yauniks.dynvpn.de:8082/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count + 1)):
         patch_count = patch_count + 1
 
     os.system('cd %s ; git fetch http://yauniks.dynvpn.de:8082/%s refs/changes/%s/%s/%s' % (project, data['project'], junk, number, patch_count))
