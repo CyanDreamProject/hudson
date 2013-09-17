@@ -172,6 +172,8 @@ if [ -z "$GERRIT_CHANGE_NUMBER" ]
 then
   echo ""
 else
+  export GERRIT_XLATION_LINT=true
+  export GERRIT_CHANGES=$GERRIT_CHANGE_NUMBER
   export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER
 fi
 echo Sync complete.
@@ -261,11 +263,6 @@ fi
 if [ ! -z "$CM_EXTRAVERSION" ]
 then
   export CM_EXPERIMENTAL=true
-fi
-
-if [ ! -z "$GERRIT_CHANGE_NUMBER" ]
-then
-  repo download $GERRIT_PROJECT $GERRIT_CHANGE_NUMBER/$GERRIT_PATCHSET_NUMBER
 fi
 
 if [ ! -z "$GERRIT_CHANGES" ]
