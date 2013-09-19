@@ -178,7 +178,7 @@ else
   then
     export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER
   else
-    export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER.GERRIT_PATCHSET_NUMBER
+    export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER.$GERRIT_PATCHSET_NUMBER
   fi
 fi
 echo Sync complete.
