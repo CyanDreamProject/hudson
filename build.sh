@@ -174,7 +174,12 @@ then
 else
   export GERRIT_XLATION_LINT=true
   export GERRIT_CHANGES=$GERRIT_CHANGE_NUMBER
-  export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER
+  if [ "$GERRIT_PATCHSET_NUMBER" = "1" ]
+  then
+    export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER
+  else
+    export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER.GERRIT_PATCHSET_NUMBER
+  fi
 fi
 echo Sync complete.
 
