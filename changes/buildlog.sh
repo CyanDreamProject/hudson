@@ -1,6 +1,6 @@
-if [ -z "$CM_BUILD" ]; then
+if [ -z "$CD_BUILD" ]; then
   ## Use jenkins' variable
-  CM_BUILD=$LUNCH
+  CD_BUILD=$LUNCH
 fi
 
 MYPATH=$(dirname $0)
@@ -8,7 +8,7 @@ export CHANGESPATH=$WORKSPACE/archive/CHANGES.txt
 rm $CHANGESPATH 2>/dev/null
 
 prevts=
-for ts in `python2 $MYPATH/getdates.py $CM_BUILD | sort -rn`; do
+for ts in `python2 $MYPATH/getdates.py $CD_BUILD | sort -rn`; do
 
 export ts
 (echo "==================================="
@@ -25,5 +25,5 @@ export prevts=$ts
 done
 
 if [ -z "$prevts" ]; then
-  echo "This is the first CyanogenMod build of this type for device $CM_BUILD" >> $CHANGESPATH
+  echo "This is the first CyanogenMod build of this type for device $CD_BUILD" >> $CHANGESPATH
 fi

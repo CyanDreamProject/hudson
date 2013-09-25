@@ -176,9 +176,9 @@ else
   export GERRIT_CHANGES=$GERRIT_CHANGE_NUMBER
   if [ "$GERRIT_PATCHSET_NUMBER" = "1" ]
   then
-    export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER
+    export CD_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER
   else
-    export CM_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER.$GERRIT_PATCHSET_NUMBER
+    export CD_EXTRAVERSION=gerrit-$GERRIT_CHANGE_NUMBER.$GERRIT_PATCHSET_NUMBER
   fi
 fi
 echo Sync complete.
@@ -238,10 +238,10 @@ UNAME=$(uname)
 
 if [ ! -z "$BUILD_USER_ID" ]
 then
-  export RELEASE_TYPE=CM_EXPERIMENTAL
+  export RELEASE_TYPE=CD_EXPERIMENTAL
 fi
 
-if [ "$RELEASE_TYPE" = "CM_NIGHTLY" ]
+if [ "$RELEASE_TYPE" = "CD_NIGHTLY" ]
 then
   if [ -z "$GERRIT_CHANGE_NUMBER" ]
   then
@@ -249,30 +249,30 @@ then
     then
       export CYANOGEN_NIGHTLY=true
     else
-      export CM_NIGHTLY=true
+      export CD_NIGHTLY=true
     fi
   else
-    export CM_EXPERIMENTAL=true
+    export CD_EXPERIMENTAL=true
   fi
-elif [ "$RELEASE_TYPE" = "CM_EXPERIMENTAL" ]
+elif [ "$RELEASE_TYPE" = "CD_EXPERIMENTAL" ]
 then
-  export CM_EXPERIMENTAL=true
-elif [ "$RELEASE_TYPE" = "CM_RELEASE" ]
+  export CD_EXPERIMENTAL=true
+elif [ "$RELEASE_TYPE" = "CD_RELEASE" ]
 then
   # gingerbread needs this
   export CYANOGEN_RELEASE=true
   # ics needs this
-  export CM_RELEASE=true
+  export CD_RELEASE=true
 fi
 
-if [ ! -z "$CM_EXTRAVERSION" ]
+if [ ! -z "$CD_EXTRAVERSION" ]
 then
-  export CM_EXPERIMENTAL=true
+  export CD_EXPERIMENTAL=true
 fi
 
 if [ ! -z "$GERRIT_CHANGES" ]
 then
-  export CM_EXPERIMENTAL=true
+  export CD_EXPERIMENTAL=true
   IS_HTTP=$(echo $GERRIT_CHANGES | grep http)
   if [ -z "$IS_HTTP" ]
   then
