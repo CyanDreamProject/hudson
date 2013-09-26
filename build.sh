@@ -315,7 +315,7 @@ fi
 
 echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
-time mka bacon recoveryzip recoveryimage checkapi
+time mka bacon recoveryzip recoveryimage
 
 check_result "Build failed."
 
