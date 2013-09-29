@@ -334,8 +334,16 @@ check_result "Build failed."
 
 if [ "$SIGN_BUILD" = "true" ]
 then
-  ./build/tools/releasetools/sign_target_files_apks -e Term.apk= -d vendor/cd-priv/keys $OUT/obj/PACKAGING/target_files_intermediates/$TARGET_PRODUCT-target_files-$BUILD_NUMBER.zip $OUT/$MODVERSION-signed-intermediate.zip
-  ./build/tools/releasetools/ota_from_target_files -k vendor/cd-priv/keys/releasekey $OUT/$MODVERSION-signed-intermediate.zip $WORKSPACE/archive/CyanDream-$MODVERSION-signed.zip
+  MODVERSION=$(cat $OUT/system/build.prop | grep ro.modversion | cut -d = -f 2)
+  if [ ! -z "$MODVERSION" -a -f $OUT/obj/PACKAGING/target_files_intermediates/$TARGET_PRODUCT-target_files-$BUILD_NUMBER.zip ]
+  then
+    ./build/tools/releasetools/sign_target_files_apks -e Term.apk= -d vendor/cd-priv/keys $OUT/obj/PACKAGING/target_files_intermediates/$TARGET_PRODUCT-target_files-$BUILD_NUMBER.zip $OUT/$MODVERSION-signed-intermediate.zip
+    ./build/tools/releasetools/ota_from_target_files -k vendor/cd-priv/keys/releasekey $OUT/$MODVERSION-signed-intermediate.zip $WORKSPACE/archive/CyanDream-$MODVERSION-signed.zip
+  else
+    echo "Unable to find target files to sign"
+    exit 1
+  fi
+>>>>>>> 4409dcd094cde3f2ab5e6eb706c8babe153fb390
 else
   for f in $(ls $OUT/CyanDream-*.zip*)
   do
