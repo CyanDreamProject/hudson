@@ -385,7 +385,6 @@ then
     echo "Unable to find target files to sign"
     exit 1
   fi
->>>>>>> 4409dcd094cde3f2ab5e6eb706c8babe153fb390
 else
   for f in $(ls $OUT/CyanDream-*.zip*)
   do
