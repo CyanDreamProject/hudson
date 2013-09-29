@@ -241,6 +241,8 @@ then
   export RELEASE_TYPE=CD_EXPERIMENTAL
 fi
 
+export SIGN_BUILD=false
+
 if [ "$RELEASE_TYPE" = "CD_NIGHTLY" ]
 then
   if [ -z "$GERRIT_CHANGE_NUMBER" ]
@@ -263,6 +265,17 @@ then
   export CYANOGEN_RELEASE=true
   # ics needs this
   export CD_RELEASE=true
+  if [ "$SIGNED" = "true" ]
+  then
+    SIGN_BUILD=true
+  fi
+elif [ "$RELEASE_TYPE" = "CD_SNAPSHOT" ]
+then
+  export CD_SNAPSHOT=true
+  if [ "$SIGNED" = "true" ]
+  then
+    SIGN_BUILD=true
+  fi
 fi
 
 if [ ! -z "$CD_EXTRAVERSION" ]
@@ -319,10 +332,16 @@ time mka bacon recoveryzip recoveryimage
 
 check_result "Build failed."
 
-for f in $(ls $OUT/CyanDream-*.zip*)
-do
-  ln $f $WORKSPACE/archive/$(basename $f)
-done
+if [ "$SIGN_BUILD" = "true" ]
+then
+  ./build/tools/releasetools/sign_target_files_apks -e Term.apk= -d vendor/cd-priv/keys $OUT/obj/PACKAGING/target_files_intermediates/$TARGET_PRODUCT-target_files-$BUILD_NUMBER.zip $OUT/$MODVERSION-signed-intermediate.zip
+  ./build/tools/releasetools/ota_from_target_files -k vendor/cd-priv/keys/releasekey $OUT/$MODVERSION-signed-intermediate.zip $WORKSPACE/archive/CyanDream-$MODVERSION-signed.zip
+else
+  for f in $(ls $OUT/CyanDream-*.zip*)
+  do
+    ln $f $WORKSPACE/archive/$(basename $f)
+  done
+fi
 if [ -f $OUT/utilties/update.zip ]
 then
   cp $OUT/utilties/update.zip $WORKSPACE/archive/recovery.zip
