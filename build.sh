@@ -35,10 +35,53 @@ then
   exit 1
 fi
 
+if [ ! -z "$GERRIT_CHANGES" ]
+	echo $GERRIT_CHANGES > workfile.txt
+	export GERRITDEVICE=`grep 'CyanDreamProject/android_device' workfile.txt`
+	rm -f workfile.txt
+then
+   
+fi
+
 if [ -z "$DEVICE" ]
 then
-  echo DEVICE not specified
-  exit 1
+	if [ ! -z "$GERRIT_CHANGES" ]
+		then
+  	  if [ "$GERRIT_PROJECT" = "$GERRITDEVICE" ]
+	  	then
+	  	echo $GERRITDEVICE > workfile.txt
+	  	if [ "$GERRITDEVICE" = "CyanDreamProject/android_device_samsung_tuna" ]
+			  then
+		  	export DEVICE=maguro
+  	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_samsung" ]
+			then
+		  	export DEVICE=`grep 'CyanDreamProject/android_device_samsung_' workfile.txt`
+	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_lge" ]
+		  	then
+		  	export DEVICE=`grep 'CyanDreamProject/android_device_lge_' workfile.txt`
+	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_htc" ]
+		  	then
+		  	export DEVICE=`grep 'CyanDreamProject/android_device_htc_' workfile.txt`
+	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_sony" ]
+		  	then
+		  	export DEVICE=`grep 'CyanDreamProject/android_device_sony_' workfile.txt`
+	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_motorola" ]
+		  	then
+		  	export DEVICE=`grep 'CyanDreamProject/android_device_motorola_' workfile.txt`
+	  	else
+		  	echo compiling gerrit changes for $GERRITDEVICE not supported yet, stopping.
+	      	rm -f workfile.txt
+		  	exit 1
+	  	fi
+	  	rm -f workfile.txt
+	  	unset GERRITDEVICE
+  	  fi
+	else
+		export DEVICE=mako
+	fi
+  else
+      echo DEVICE not specified
+      exit 1
 fi
 
 if [ -z "$RELEASE_TYPE" ]
