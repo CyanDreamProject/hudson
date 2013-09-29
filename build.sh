@@ -74,13 +74,13 @@ then
 	  	fi
 	  	rm -f workfile.txt
 	  	unset GERRITDEVICE
-  	  fi
 	else
 		export DEVICE=mako
-	fi
+  	  fi
   else
       echo DEVICE not specified
       exit 1
+	fi
 fi
 
 if [ -z "$RELEASE_TYPE" ]
