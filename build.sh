@@ -39,8 +39,6 @@ if [ ! -z "$GERRIT_CHANGES" ]
 	echo $GERRIT_CHANGES > workfile.txt
 	export GERRITDEVICE=`grep 'CyanDreamProject/android_device' workfile.txt`
 	rm -f workfile.txt
-then
-   
 fi
 
 if [ -z "$DEVICE" ]
