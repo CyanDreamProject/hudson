@@ -183,6 +183,7 @@ fi
 
 mkdir -p .repo/local_manifests
 rm -f .repo/local_manifest.xml
+rm -f .repo/local_manifests/twrp.xml
 rm -f .repo/local_manifests/device.xml
 
 rm -rf $WORKSPACE/local_manifests
@@ -196,6 +197,11 @@ then
   cp $WORKSPACE/local_manifests/bravo_manifest.xml .repo/local_manifests/device.xml
 else
   echo a local_manifest does not exist, skipping.
+fi
+
+if [ "$TWRP" = "true" ]
+then
+  cp $WORKSPACE/local_manifests/twrp_manifest.xml .repo/local_manifests/twrp.xml
 fi
 
 check_result "Bootstrap failed"
