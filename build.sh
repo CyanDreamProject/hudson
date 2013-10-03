@@ -184,7 +184,6 @@ fi
 mkdir -p .repo/local_manifests
 rm -f .repo/local_manifest.xml
 rm -f .repo/local_manifests/twrp.xml
-rm -f $OUT/system/build.prop
 rm -f .repo/local_manifests/device.xml
 
 rm -rf $WORKSPACE/local_manifests
@@ -283,6 +282,7 @@ repo manifest -o $WORKSPACE/archive/manifest.xml -r
 mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
 rmdir $TEMPSTASH
 
+rm -f $OUT/system/build.prop
 rm -f $OUT/CyanDream-*.zip*
 
 UNAME=$(uname)
