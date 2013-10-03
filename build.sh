@@ -184,6 +184,7 @@ fi
 mkdir -p .repo/local_manifests
 rm -f .repo/local_manifest.xml
 rm -f .repo/local_manifests/twrp.xml
+rm -f $OUT/system/build.prop
 rm -f .repo/local_manifests/device.xml
 
 rm -rf $WORKSPACE/local_manifests
