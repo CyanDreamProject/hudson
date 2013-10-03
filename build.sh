@@ -378,7 +378,12 @@ fi
 
 echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
-time mka bacon recoveryzip recoveryimage
+if [ "$RECOVERYONLY" = "true" ]
+then
+  time mka recoveryzip recoveryimage
+else
+  time mka bacon recoveryzip recoveryimage
+fi
 
 check_result "Build failed."
 
