@@ -44,7 +44,7 @@ fi
 
 if [ -z "$DEVICE" ]
 then
-	if [ ! -z "$GERRIT_CHANGES" ]
+	if [ ! -z "$GERRIT_CHANGE_ID" ]
 		then
   	  if [ "$GERRIT_PROJECT" = "$GERRITDEVICE" ]
 	  	then
@@ -378,12 +378,7 @@ fi
 
 echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
 
-if [ "$RECOVERYONLY" = "true" ]
-then
-  time mka recoveryzip recoveryimage
-else
-  time mka bacon recoveryzip recoveryimage
-fi
+time mka bacon recoveryzip recoveryimage
 
 check_result "Build failed."
 
