@@ -10,6 +10,7 @@ function check_result {
 }
 
 function cleanup {
+  rm -f .repo/local_manifests/device.xml
   rm -f .repo/local_manifests/dyn-*.xml
   rm -f .repo/local_manifests/roomservice.xml
   if [ -f $WORKSPACE/build_env/cleanup.sh ]
