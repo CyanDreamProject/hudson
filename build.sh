@@ -4,6 +4,7 @@ function check_result {
   if [ "0" -ne "$?" ]
   then
     (repo forall -c "git reset --hard") >/dev/null
+    cleanup
     echo $1
     exit 1
   fi
@@ -125,6 +126,11 @@ export PATH=~/bin:$PATH
 export USE_CCACHE=1
 export CCACHE_NLEVELS=4
 export BUILD_WITH_COLORS=0
+
+# remove device-specific stuff
+rm -f .repo/local_manifests/device.xml
+rm -f .repo/local_manifests/roomservice.xml
+
 
 platform=`uname -s`
 if [ "$platform" = "Darwin" ]
@@ -404,6 +410,10 @@ then
     fi
     ./build/tools/releasetools/sign_target_files_apks -e Term.apk= -d vendor/cd-priv/keys $OUT/obj/PACKAGING/target_files_intermediates/$TARGET_PRODUCT-target_files-$BUILD_NUMBER.zip $OUT/$MODVERSION-signed-intermediate.zip
     $OTASCRIPT -k vendor/cd-priv/keys/releasekey $OUT/$MODVERSION-signed-intermediate.zip $WORKSPACE/archive/CyanDream-$MODVERSION-signed.zip
+    if [ "$FASTBOOT_IMAGES" = "true" ]
+    then
+       ./build/tools/releasetools/img_from_target_files $OUT/obj/PACKAGING/target_files_intermediates/$TARGET_PRODUCT-target_files-$BUILD_NUMBER.zip $WORKSPACE/archive/CyanDream-$MODVERSION-fastboot.zip
+    fi
     rm -f $OUT/ota_script_path
   else
     echo "Unable to find target files to sign"
@@ -444,3 +454,34 @@ rmdir $TEMPSTASH
 
 # chmod the files in case UMASK blocks permissions
 chmod -R ugo+r $WORKSPACE/archive
+<<<<<<< HEAD
+=======
+
+# Add build to GetCM
+if [ "$JOB_NAME" = "android" -a "$USER" = "jenkins" ]; then
+    echo "Adding build to GetCM"
+    echo python /opt/jenkins-utils/add_build.py --file `ls $WORKSPACE/archive/*.zip` --buildprop $WORKSPACE/archive/build.prop --buildnumber $BUILD_NO --releasetype $RELEASE_TYPE
+    python /opt/jenkins-utils/add_build.py --file `ls $WORKSPACE/archive/*.zip` --buildprop $WORKSPACE/archive/build.prop --buildnumber $BUILD_NO --releasetype $RELEASE_TYPE
+fi
+
+CMCP=$(which cmcp)
+if [ ! -z "$CMCP" -a ! -z "$CM_RELEASE" ]
+then
+  MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.modversion | cut -d = -f 2)
+  if [ -z "$MODVERSION" ]
+  then
+    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.cm.version | cut -d = -f 2)
+  fi
+  if [ -z "$MODVERSION" ]
+  then
+    echo "Unable to detect ro.modversion or ro.cm.version."
+    exit 1
+  fi
+  echo Archiving release to S3.
+  for f in $(ls $WORKSPACE/archive)
+  do
+    s3cmd --no-progress --disable-multipart -P put $WORKSPACE/archive/$f s3://cyngn-builds/release/$MODVERSION/$f > /dev/null 2> /dev/null
+    check_result "Failure archiving $f"
+  done
+fi
+>>>>>>> 1c3775bfd3a316e80e0eb97afcefd1ab516f475c
