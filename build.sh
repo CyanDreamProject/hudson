@@ -412,7 +412,7 @@ then
     $OTASCRIPT -k vendor/cd-priv/keys/releasekey $OUT/$MODVERSION-signed-intermediate.zip $WORKSPACE/archive/CyanDream-$MODVERSION-signed.zip
     if [ "$FASTBOOT_IMAGES" = "true" ]
     then
-       ./build/tools/releasetools/img_from_target_files $OUT/obj/PACKAGING/target_files_intermediates/$TARGET_PRODUCT-target_files-$BUILD_NUMBER.zip $WORKSPACE/archive/CyanDream-$MODVERSION-fastboot.zip
+       ./build/tools/releasetools/img_from_target_files $OUT/$MODVERSION-signed-intermediate.zip $WORKSPACE/archive/CyanDream-$MODVERSION-fastboot.zip
     fi
     rm -f $OUT/ota_script_path
   else
