@@ -180,6 +180,19 @@ rm -f .repo/local_manifests/dyn-*.xml
 repo init -u $SYNC_PROTO://github.com/CyanDreamProject/android.git -b $CORE_BRANCH $MANIFEST
 check_result "repo init failed."
 
+echo "get proprietary stuff..."
+if [ ! -d vendor/cd-priv ]
+then
+  git clone git@bitbucket.org:cyandreamproject/android_vendor_cd-priv.git vendor/cd-priv
+fi
+
+cd vendor/cd-priv
+## Get rid of possible local changes
+git reset --hard
+git pull -s resolve
+cd ../..
+bash vendor/cd-priv/setup
+
 # make sure ccache is in PATH
 if [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cd-4.3" ]]
 then
@@ -246,13 +259,6 @@ else
   fi
 fi
 echo Sync complete.
-
-if [ -f $WORKSPACE/hudson/$REPO_BRANCH-setup.sh ]
-then
-  $WORKSPACE/hudson/$REPO_BRANCH-setup.sh
-else
-  $WORKSPACE/hudson/cm-setup.sh
-fi
 
 # workaround for devices that are not 100% supported by CyanDream
 echo creating symlink...
