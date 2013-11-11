@@ -149,7 +149,8 @@ then
   chmod a+x ~/bin/repo
 fi
 
-if [ "$REPO_BRANCH" =~ "cd-4.4" ]; then
+if [ "$REPO_BRANCH" =~ "cd-4.4" ]
+then
    JENKINS_BUILD_DIR=kitkat
 elif [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cd-4.3" ]]; then 
    JENKINS_BUILD_DIR=jellybean
