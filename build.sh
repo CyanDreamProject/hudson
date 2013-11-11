@@ -441,8 +441,19 @@ then
 fi
 
 # archive the build.prop as well
-ZIP=$(ls $WORKSPACE/archive/CyanDream-*.zip)
+ZIP=$(ls $WORKSPACE/archive/CyanDream-*.zip | grep -v -- -fastboot)
 unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
+
+if [ "$TARGET_BUILD_VARIANT" = "user" -a "$EXTRA_DEBUGGABLE_BOOT" = "true" ]
+then
+  # Minimal rebuild to get a debuggable boot image, just in case
+  rm -f $OUT/root/default.prop
+  DEBLUNCH=$(echo $LUNCH|sed -e 's|-user$|-userdebug|g')
+  breakfast $DEBLUNCH
+  mka bootimage
+  check_result "Failed to generate a debuggable bootimage"
+  cp $OUT/boot.img $WORKSPACE/archive/boot-debuggable.img
+fi
 
 # Build is done, cleanup the environment
 cleanup
