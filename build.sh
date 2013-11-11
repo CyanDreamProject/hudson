@@ -196,7 +196,7 @@ cd ../..
 bash vendor/cd-priv/setup
 
 # make sure ccache is in PATH
-if [ $REPO_BRANCH =~ "cd-4.4" ]
+if [ "$REPO_BRANCH" =~ "cd-4.4" ]
 then
 export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
 export CCACHE_DIR=~/.kk_ccache
