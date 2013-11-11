@@ -187,7 +187,7 @@ check_result "repo init failed."
 echo "get proprietary stuff..."
 if [ ! -d vendor/cd-priv ]
 then
-  git clone git@bitbucket.org:cyandreamproject/android_vendor_cd-priv.git vendor/cd-priv
+  git clone git@bitbucket.org:cyandreamproject/android_vendor_cd-priv.git -b $REPO_BRANCH vendor/cd-priv
 fi
 
 cd vendor/cd-priv
