@@ -149,7 +149,9 @@ then
   chmod a+x ~/bin/repo
 fi
 
-if [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cd-4.3" ]]; then 
+if [ "$REPO_BRANCH" =~ "cd-4.4" ]; then
+   JENKINS_BUILD_DIR=kitkat
+elif [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cd-4.3" ]]; then 
    JENKINS_BUILD_DIR=jellybean
 else
    JENKINS_BUILD_DIR=$REPO_BRANCH
@@ -194,7 +196,12 @@ cd ../..
 bash vendor/cd-priv/setup
 
 # make sure ccache is in PATH
-if [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cd-4.3" ]]
+if [ $REPO_BRANCH =~ "cd-4.4" ]
+then
+export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
+export CCACHE_DIR=~/.kk_ccache
+else
+elif [[ "$REPO_BRANCH" =~ "jellybean" || $REPO_BRANCH =~ "cd-4.3" ]]
 then
 export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
 export CCACHE_DIR=~/.jb_ccache
