@@ -174,9 +174,13 @@ cd $JENKINS_BUILD_DIR
 
 # always force a fresh repo init since we can build off different branches
 # and the "default" upstream branch can get stuck on whatever was init first.
-if [ -z "$CORE_BRANCH" ]
+if [ "$STABILIZATION_BRANCH" = "true" ]
 then
-  CORE_BRANCH=$REPO_BRANCH
+  SYNC_BRANCH="stable/$REPO_BRANCH"
+  # Temporary: Let the stab builds fallback to the mainline dependency 
+  export ROOMSERVICE_BRANCHES="$REPO_BRANCH"
+else
+  SYNC_BRANCH=$REPO_BRANCH
 fi
 
 if [ ! -z "$RELEASE_MANIFEST" ]
@@ -189,13 +193,13 @@ fi
 
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
-repo init -u $SYNC_PROTO://github.com/CyanDreamProject/android.git -b $CORE_BRANCH $MANIFEST
+repo init -u $SYNC_PROTO://github.com/CyanDreamProject/android.git -b $SYNC_BRANCH $MANIFEST
 check_result "repo init failed."
 
 echo "get proprietary stuff..."
 if [ ! -d vendor/cd-priv ]
 then
-  git clone git@bitbucket.org:cyandreamproject/android_vendor_cd-priv.git -b $REPO_BRANCH vendor/cd-priv
+  git clone git@bitbucket.org:cyandreamproject/android_vendor_cd-priv.git -b $SYNC_BRANCH vendor/cd-priv
 fi
 
 cd vendor/cd-priv
@@ -206,23 +210,13 @@ cd ../..
 bash vendor/cd-priv/setup
 
 # make sure ccache is in PATH
-if [ "$REPO_BRANCH" =~ "cd-4.4" ]
-then
 if [ "$platform" = "Darwin" ]
 then
 export PATH="$PATH:/usr/local/bin/:$PWD/prebuilts/misc/darwin-x86/ccache"
 else
 export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
 fi
-export CCACHE_DIR=~/.kk_ccache
-elif [ "$REPO_BRANCH" = "cd-4.3" ]
-then
-export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-export CCACHE_DIR=~/.jb_ccache
-else
-export PATH="$PATH:/opt/local/bin/:$PWD/prebuilt/$(uname|awk '{print tolower($0)}')-x86/ccache"
-export CCACHE_DIR=~/.ics_ccache
-fi
+export CCACHE_DIR=~/.ccache
 
 if [ -f ~/.jenkins_profile ]
 then
@@ -290,10 +284,10 @@ then
   LAST_BRANCH=$(cat .last_branch)
 else
   echo "Last build branch is unknown, assume clean build"
-  LAST_BRANCH=$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST
+  LAST_BRANCH=$REPO_BRANCH-$RELEASE_MANIFEST
 fi
 
-if [ "$LAST_BRANCH" != "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" ]
+if [ "$LAST_BRANCH" != "$REPO_BRANCH-$RELEASE_MANIFEST" ]
 then
   echo "Branch has changed since the last build happened here. Forcing cleanup."
   CLEAN="true"
@@ -339,23 +333,12 @@ if [ "$RELEASE_TYPE" = "CD_NIGHTLY" ]
 then
   if [ -z "$GERRIT_CHANGE_NUMBER" ]
   then
-    if [ "$REPO_BRANCH" = "gingerbread" ]
-    then
-      export CYANOGEN_NIGHTLY=true
-    else
-      export CD_NIGHTLY=true
-    fi
+    export CD_NIGHTLY=true
   else
     export CD_EXPERIMENTAL=true
   fi
-elif [ "$RELEASE_TYPE" = "CD_EXPERIMENTAL" ]
-then
-  export CD_EXPERIMENTAL=true
 elif [ "$RELEASE_TYPE" = "CD_RELEASE" ]
 then
-  # gingerbread needs this
-  export CYANOGEN_RELEASE=true
-  # ics needs this
   export CD_RELEASE=true
   if [ "$SIGNED" = "true" ]
   then
@@ -418,7 +401,7 @@ else
   echo "Skipping clean: $TIME_SINCE_LAST_CLEAN hours since last clean."
 fi
 
-echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
+echo "$REPO_BRANCH-$RELEASE_MANIFEST" > .last_branch
 
 time mka bacon recoveryzip recoveryimage
 
@@ -426,7 +409,7 @@ check_result "Build failed."
 
 if [ "$SIGN_BUILD" = "true" ]
 then
-  MODVERSION=$(cat $OUT/system/build.prop | grep ro.modversion | cut -d = -f 2)
+  MODVERSION=$(cat $OUT/system/build.prop | grep ro.cm.version | cut -d = -f 2)
   if [ ! -z "$MODVERSION" -a -f $OUT/obj/PACKAGING/target_files_intermediates/$TARGET_PRODUCT-target_files-$BUILD_NUMBER.zip ]
   then
     if [ -s $OUT/ota_script_path ]
