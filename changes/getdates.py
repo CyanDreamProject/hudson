@@ -50,7 +50,7 @@ else:
 
 headers = {}
 headers['Content-Type'] = 'application/json'
-headers['User-Agent'] = 'CyanogenMod changelog builder'
+headers['User-Agent'] = 'CyanDream changelog builder'
 headers['Accept'] = '*/*'
 headers['Content-Length'] = "%d" % (len(logrequest))
 

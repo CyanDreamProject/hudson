@@ -86,12 +86,12 @@ cd $REPO_BRANCH
 
 rm -rf .repo/manifests*
 rm -rf .repo/local_manifests/
-repo init -u $SYNC_PROTO://github.com/CyanogenMod/android.git -b $REPO_BRANCH
+repo init -u $SYNC_PROTO://github.com/CyanDreamProject/android.git -b $REPO_BRANCH
 check_result "repo init failed."
 
 mkdir -p .repo/local_manifests
 cp $WORKSPACE/hudson/recovery.xml .repo/local_manifests/
-curl -u koush:$GITHUB_TOKEN "https://raw.github.com/CyanogenMod/cm_build_config/master/$REPO_BRANCH.xml" > .repo/local_manifests/$REPO_BRANCH.xml
+curl -u koush:$GITHUB_TOKEN "https://raw.github.com/CyanDreamProject/cm_build_config/master/$REPO_BRANCH.xml" > .repo/local_manifests/$REPO_BRANCH.xml
 
 echo Manifest:
 cat .repo/manifest.xml

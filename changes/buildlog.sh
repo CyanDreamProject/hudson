@@ -25,5 +25,5 @@ export prevts=$ts
 done
 
 if [ -z "$prevts" ]; then
-  echo "This is the first CyanogenMod build of this type for device $CD_BUILD" >> $CHANGESPATH
+  echo "This is the first CyanDream build of this type for device $CD_BUILD" >> $CHANGESPATH
 fi
