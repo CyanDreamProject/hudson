@@ -279,20 +279,6 @@ echo Sync complete.
 echo creating symlink...
 ln -s vendor/cyandream vendor/cm
 
-if [ -f .last_branch ]
-then
-  LAST_BRANCH=$(cat .last_branch)
-else
-  echo "Last build branch is unknown, assume clean build"
-  LAST_BRANCH=$REPO_BRANCH-$RELEASE_MANIFEST
-fi
-
-if [ "$LAST_BRANCH" != "$REPO_BRANCH-$RELEASE_MANIFEST" ]
-then
-  echo "Branch has changed since the last build happened here. Forcing cleanup."
-  CLEAN="true"
-fi
-
 . build/envsetup.sh
 # Workaround for failing translation checks in common hardware repositories
 if [ ! -z "$GERRIT_XLATION_LINT" ]
@@ -377,31 +363,17 @@ then
   fi
 fi
 
-if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "50.0" ]
+if [ "$CLEAN" = "true" ]
 then
-  ccache -M 50G
+  rm -rf out        
+fi
+
+if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "20.0" ]
+then
+  ccache -M 20G
 fi
 
 WORKSPACE=$WORKSPACE LUNCH=$LUNCH bash $WORKSPACE/hudson/changes/buildlog.sh 2>&1
-
-LAST_CLEAN=0
-if [ -f .clean ]
-then
-  LAST_CLEAN=$(date -r .clean +%s)
-fi
-TIME_SINCE_LAST_CLEAN=$(expr $(date +%s) - $LAST_CLEAN)
-# convert this to hours
-TIME_SINCE_LAST_CLEAN=$(expr $TIME_SINCE_LAST_CLEAN / 60 / 60)
-if [ $TIME_SINCE_LAST_CLEAN -gt "24" -o $CLEAN = "true" ]
-then
-  echo "Cleaning!"
-  touch .clean
-  make clobber
-else
-  echo "Skipping clean: $TIME_SINCE_LAST_CLEAN hours since last clean."
-fi
-
-echo "$REPO_BRANCH-$RELEASE_MANIFEST" > .last_branch
 
 time mka bacon recoveryzip recoveryimage
 
