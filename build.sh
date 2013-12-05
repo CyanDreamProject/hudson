@@ -303,16 +303,16 @@ fi
 # save manifest used for build (saving revisions as current HEAD)
 
 # include only the auto-generated locals
-TEMPSTASH=$(mktemp -d)
-mv .repo/local_manifests/* $TEMPSTASH
-mv $TEMPSTASH/roomservice.xml .repo/local_manifests/
+#TEMPSTASH=$(mktemp -d)
+#mv .repo/local_manifests/* $TEMPSTASH
+#mv $TEMPSTASH/roomservice.xml .repo/local_manifests/
 
 # save it
 repo manifest -o $WORKSPACE/archive/manifest.xml -r
 
 # restore all local manifests
-mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
-rmdir $TEMPSTASH
+#mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
+#rmdir $TEMPSTASH
 
 rm -f $OUT/system/build.prop
 rm -f $OUT/CyanDream-*.zip*
@@ -448,13 +448,13 @@ cleanup
 # CORE: save manifest used for build (saving revisions as current HEAD)
 
 # Stash away other possible manifests
-TEMPSTASH=$(mktemp -d)
-mv .repo/local_manifests $TEMPSTASH
+#TEMPSTASH=$(mktemp -d)
+#mv .repo/local_manifests $TEMPSTASH
 
 repo manifest -o $WORKSPACE/archive/core.xml -r
 
-mv $TEMPSTASH/local_manifests .repo
-rmdir $TEMPSTASH
+#mv $TEMPSTASH/local_manifests .repo
+#rmdir $TEMPSTASH
 
 # chmod the files in case UMASK blocks permissions
 chmod -R ugo+r $WORKSPACE/archive
