@@ -289,6 +289,17 @@ fi
 lunch $LUNCH
 check_result "lunch failed."
 
+# fix ace builds as we're using a prebuilt kernel for this device
+if [ "$DEVICE" = "ace" ]
+then
+  echo "get some stuff required for building ace..."
+  mkdir -p out/target/product/ace/obj/KERNEL_OBJ/usr
+  cd out/target/product/ace/obj/KERNEL_OBJ/usr
+  wget https://github.com/yanniks/cyandream-ace/raw/cd-4.4/kernel_usr.zip
+  unzip kernel_usr.zip
+  rm -f kernel_usr.zip
+fi
+
 # save manifest used for build (saving revisions as current HEAD)
 
 # include only the auto-generated locals
