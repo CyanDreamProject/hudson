@@ -55,7 +55,7 @@ fi
 if [ ! -z "$GERRIT_CHANGES" ]
 	then
 	echo $GERRIT_CHANGES > workfile.txt
-	export GERRITDEVICE=`grep 'CyanDreamProject/android_device' workfile.txt`
+	export GERRITDEVICE=`grep 'cyandream-devices/android_device' workfile.txt`
 	rm -f workfile.txt
 fi
 
@@ -66,24 +66,24 @@ then
   	  if [ "$GERRIT_PROJECT" = "$GERRITDEVICE" ]
 	  	then
 	  	echo $GERRITDEVICE > workfile.txt
-	  	if [ "$GERRITDEVICE" = "CyanDreamProject/android_device_samsung_tuna" ]
+	  	if [ "$GERRITDEVICE" = "cyandream-devices/android_device_samsung_tuna" ]
 			  then
 		  	export DEVICE=maguro
-  	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_samsung" ]
+  	  	elif [ "$GERRITDEVICE" =~ "cyandream-devices/android_device_samsung" ]
 			then
-		  	export DEVICE=`grep 'CyanDreamProject/android_device_samsung_' workfile.txt`
-	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_lge" ]
+		  	export DEVICE=`grep 'cyandream-devices/android_device_samsung_' workfile.txt`
+	  	elif [ "$GERRITDEVICE" =~ "cyandream-devices/android_device_lge" ]
 		  	then
-		  	export DEVICE=`grep 'CyanDreamProject/android_device_lge_' workfile.txt`
-	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_htc" ]
+		  	export DEVICE=`grep 'cyandream-devices/android_device_lge_' workfile.txt`
+	  	elif [ "$GERRITDEVICE" =~ "cyandream-devices/android_device_htc" ]
 		  	then
-		  	export DEVICE=`grep 'CyanDreamProject/android_device_htc_' workfile.txt`
-	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_sony" ]
+		  	export DEVICE=`grep 'cyandream-devices/android_device_htc_' workfile.txt`
+	  	elif [ "$GERRITDEVICE" =~ "cyandream-devices/android_device_sony" ]
 		  	then
-		  	export DEVICE=`grep 'CyanDreamProject/android_device_sony_' workfile.txt`
-	  	elif [ "$GERRITDEVICE" =~ "CyanDreamProject/android_device_motorola" ]
+		  	export DEVICE=`grep 'cyandream-devices/android_device_sony_' workfile.txt`
+	  	elif [ "$GERRITDEVICE" =~ "cyandream-devices/android_device_motorola" ]
 		  	then
-		  	export DEVICE=`grep 'CyanDreamProject/android_device_motorola_' workfile.txt`
+		  	export DEVICE=`grep 'cyandream-devices/android_device_motorola_' workfile.txt`
 	  	else
 		  	echo compiling gerrit changes for $GERRITDEVICE not supported yet, stopping.
 	      	rm -f workfile.txt
@@ -229,7 +229,7 @@ rm -f .repo/local_manifests/twrp.xml
 rm -f .repo/local_manifests/device.xml
 
 rm -rf $WORKSPACE/local_manifests
-git clone https://github.com/CyanDreamProject/local_manifests.git -b $REPO_BRANCH $WORKSPACE/local_manifests
+git clone https://github.com/cyandream-devices/local_manifests.git -b $REPO_BRANCH $WORKSPACE/local_manifests
 
 if [ "$DEVICE" = "ace" ]
 then
