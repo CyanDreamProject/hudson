@@ -373,17 +373,6 @@ then
   ccache -M 20G
 fi
 
-# fix ace builds as we're using a prebuilt kernel for this device
-if [ "$DEVICE" = "ace" ]
-then
-  echo "get some stuff required for building ace..."
-  mkdir -p out/target/product/ace/obj/KERNEL_OBJ/usr
-  cd out/target/product/ace/obj/KERNEL_OBJ/usr
-  curl -s -O https://raw.github.com/yanniks/cyandream-ace/cd-4.4/kernel_usr.zip
-  unzip kernel_usr.zip >/dev/null
-  rm -f kernel_usr.zip
-fi
-
 WORKSPACE=$WORKSPACE LUNCH=$LUNCH bash $WORKSPACE/hudson/changes/buildlog.sh 2>&1
 
 time mka bacon recoveryzip recoveryimage
