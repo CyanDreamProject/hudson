@@ -382,7 +382,6 @@ then
   curl -s -O https://raw.github.com/yanniks/cyandream-ace/cd-4.4/kernel_usr.zip
   unzip kernel_usr.zip >/dev/null
   rm -f kernel_usr.zip
-  cd ../../../../../../..
 fi
 
 WORKSPACE=$WORKSPACE LUNCH=$LUNCH bash $WORKSPACE/hudson/changes/buildlog.sh 2>&1
