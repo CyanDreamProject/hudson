@@ -229,17 +229,6 @@ rm -f .repo/local_manifests/twrp.xml
 rm -f .repo/local_manifests/device.xml
 
 rm -rf $WORKSPACE/local_manifests
-git clone https://github.com/cyandream-devices/local_manifests.git -b $REPO_BRANCH $WORKSPACE/local_manifests
-
-if [ "$DEVICE" = "ace" ]
-then
-  cp $WORKSPACE/local_manifests/ace_manifest.xml .repo/local_manifests/device.xml
-elif [ "$DEVICE" = "bravo" ]
-then
-  cp $WORKSPACE/local_manifests/bravo_manifest.xml .repo/local_manifests/device.xml
-else
-  echo a local_manifest does not exist, skipping.
-fi
 
 if [ "$TWRP" = "true" ]
 then
