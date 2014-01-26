@@ -357,9 +357,18 @@ then
   rm -rf out        
 fi
 
-if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "20.0" ]
+export machine=`uname -n`
+if [ ! "$machine" = "MacBookPro" ]
 then
-  ccache -M 20G
+	if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "20.0" ]
+	then
+	  ccache -M 20G
+	fi
+else
+	if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "10.0" ]
+	then
+	  ccache -M 10G
+	fi
 fi
 
 WORKSPACE=$WORKSPACE LUNCH=$LUNCH bash $WORKSPACE/hudson/changes/buildlog.sh 2>&1
