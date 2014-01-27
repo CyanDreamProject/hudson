@@ -365,9 +365,9 @@ then
 	  ccache -M 20G
 	fi
 else
-	if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "10.0" ]
+	if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "5.0" ]
 	then
-	  ccache -M 10G
+	  ccache -M 5G
 	fi
 fi
 
