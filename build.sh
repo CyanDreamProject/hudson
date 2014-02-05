@@ -365,6 +365,7 @@ then
 	  ccache -M 20G
 	fi
 else
+	rm -rf /home/yannik/.ccache
 	if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "5.0" ]
 	then
 	  ccache -M 5G
