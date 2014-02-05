@@ -266,7 +266,7 @@ echo Sync complete.
 
 # workaround for devices that are not 100% supported by CyanDream
 echo creating symlink...
-ln -s vendor/cyandream vendor/cm
+ln -s cyandream vendor/cm
 
 . build/envsetup.sh
 # Workaround for failing translation checks in common hardware repositories
