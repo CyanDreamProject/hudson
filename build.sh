@@ -354,11 +354,11 @@ fi
 
 if [ "$CLEAN" = "true" ]
 then
-  rm -rf out        
+  rm -rf out
 fi
 
 export machine=`uname -n`
-if [ ! "$machine" = "MacBookPro" ]
+if [ ! "$machine" = "yannik-MacBookPro" ]
 then
 	if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "20.0" ]
 	then
