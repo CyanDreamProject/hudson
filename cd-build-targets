@@ -1,12 +1,12 @@
-ace cd-4.4 D
-crespo cd-4.4 W
-hammerhead cd-4.4 D
-m7ul cd-4.4 W
-m7att cd-4.4 W
-m7spr cd-4.4 W
-m7tmo cd-4.4 W
-m7vzw cd-4.4 W
-maguro cd-4.4 D
-mako cd-4.4 D
-n7100 cd-4.4 D
-t0lte cd-4.4 W
+ace cd-4.4 D false
+crespo cd-4.4 W false
+hammerhead cd-4.4 D true
+m7ul cd-4.4 W false
+m7att cd-4.4 W false
+m7spr cd-4.4 W false
+m7tmo cd-4.4 W false
+m7vzw cd-4.4 W false
+maguro cd-4.4 D false
+mako cd-4.4 D true
+n7100 cd-4.4 D false
+t0lte cd-4.4 W false
