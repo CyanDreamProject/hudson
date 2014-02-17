@@ -401,14 +401,16 @@ then
     exit 1
   fi
 else
-  for f in $(ls $OUT/CyanDream-*.zip*)
-  do
-    ln $f $WORKSPACE/archive/$(basename $f)
-  done
+  if [ ! "$RECOVERYONLY" = "true" ];then
+    for f in $(ls $OUT/CyanDream-*.zip*)
+    do
+      ln $f $WORKSPACE/archive/$(basename $f)
+    done
+  fi
 fi
-if [ -f $OUT/utilties/update.zip ]
+if [ "$RECOVERYONLY" = "true" ]
 then
-  cp $OUT/utilties/update.zip $WORKSPACE/archive/recovery.zip
+  cp $OUT/utilities/update.zip $WORKSPACE/archive/recovery.zip
 fi
 if [ -f $OUT/recovery.img ]
 then
@@ -447,5 +449,7 @@ repo manifest -o $WORKSPACE/archive/core.xml -r
 # chmod the files in case UMASK blocks permissions
 chmod -R ugo+r $WORKSPACE/archive
 
-echo "release new build..."
-bash vendor/cd-priv/release/release $RELEASE_TYPE
+if [ ! "$RECOVERYONLY" = "true" ];then
+  echo "release new build..."
+  bash vendor/cd-priv/release/release $RELEASE_TYPE
+fi
