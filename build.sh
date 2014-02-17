@@ -232,7 +232,7 @@ rm -rf $WORKSPACE/local_manifests
 
 if [ "$TWRP" = "true" ]
 then
-  cp $WORKSPACE/local_manifests/twrp_manifest.xml .repo/local_manifests/twrp.xml
+  curl -s https://raw.github.com/cyandream-devices/local_manifests/cd-4.4/twrp_manifest.xml -o .repo/local_manifests/twrp.xml
 fi
 
 check_result "Bootstrap failed"
@@ -374,7 +374,11 @@ fi
 
 WORKSPACE=$WORKSPACE LUNCH=$LUNCH bash $WORKSPACE/hudson/changes/buildlog.sh 2>&1
 
-time mka bacon recoveryzip recoveryimage
+if [ "$RECOVERYONLY" = "true" ];then
+  time mka recoveryzip recoveryimage
+else
+  time mka bacon recoveryzip recoveryimage
+fi
 
 check_result "Build failed."
 
