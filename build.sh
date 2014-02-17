@@ -374,7 +374,7 @@ fi
 
 WORKSPACE=$WORKSPACE LUNCH=$LUNCH bash $WORKSPACE/hudson/changes/buildlog.sh 2>&1
 
-if [ "$RECOVERYONLY" = "true];then
+if [ "$RECOVERYONLY" = "true" ];then
   time mka recoveryzip recoveryimage
 else
   time mka bacon recoveryzip recoveryimage
