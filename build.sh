@@ -398,7 +398,6 @@ then
   make clobber
 else
   echo "Skipping clean: $TIME_SINCE_LAST_CLEAN hours since last clean."
->>>>>>> parent of db27b15... fix clean, change some other stuff
 fi
 
 echo "$REPO_BRANCH-$RELEASE_MANIFEST" > .last_branch
