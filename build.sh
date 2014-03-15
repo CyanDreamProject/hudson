@@ -483,5 +483,15 @@ chmod -R ugo+r $WORKSPACE/archive
 
 if [ ! "$RECOVERYONLY" = "true" ];then
   echo "release new build..."
-  bash vendor/cd-priv/release/release $RELEASE_TYPE
+  if [ "$RELEASE_TYPE" = "CD_NIGHTLY" ];then
+      if [ -z "$GERRIT_CHANGE_NUMBER" ]
+      then
+        export cd-releasetype=CD_NIGHTLY
+      else
+        export cd-releasetype=CD_EXPERIMENTAL
+      fi
+  else
+      export cd-releasetype=$RELEASE_TYPE
+  fi
+  bash vendor/cd-priv/release/release $cd-releasetype
 fi
