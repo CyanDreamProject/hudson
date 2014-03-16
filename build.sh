@@ -486,12 +486,12 @@ if [ ! "$RECOVERYONLY" = "true" ];then
   if [ "$RELEASE_TYPE" = "CD_NIGHTLY" ];then
       if [ -z "$GERRIT_CHANGE_NUMBER" ]
       then
-        export cd-releasetype=CD_NIGHTLY
+        export cdreleasetype=CD_NIGHTLY
       else
-        export cd-releasetype=CD_EXPERIMENTAL
+        export cdreleasetype=CD_EXPERIMENTAL
       fi
   else
-      export cd-releasetype=$RELEASE_TYPE
+      export cdreleasetype=$RELEASE_TYPE
   fi
-  bash vendor/cd-priv/release/release $cd-releasetype
+  bash vendor/cd-priv/release/release $cdreleasetype
 fi
