@@ -108,7 +108,7 @@ fi
 
 if [ -z "$SYNC_PROTO" ]
 then
-  SYNC_PROTO=http
+  SYNC_PROTO=https
 fi
 export LUNCH=cd_$DEVICE-userdebug
 
