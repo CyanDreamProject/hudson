@@ -108,7 +108,7 @@ fi
 
 if [ -z "$SYNC_PROTO" ]
 then
-  SYNC_PROTO=https
+  SYNC_PROTO=http
 fi
 export LUNCH=cd_$DEVICE-userdebug
 
@@ -193,7 +193,7 @@ fi
 
 rm -rf .repo/manifests*
 rm -f .repo/local_manifests/dyn-*.xml
-repo init -u $SYNC_PROTO://github.com/CyanDreamProject/android.git -b $SYNC_BRANCH $MANIFEST
+repo init -u $SYNC_PROTO://cdgit-pub.yauniks.dynvpn.de/CyanDreamProject/android.git -b $SYNC_BRANCH $MANIFEST
 check_result "repo init failed."
 
 echo "get proprietary stuff..."
@@ -232,7 +232,7 @@ rm -rf $WORKSPACE/local_manifests
 
 if [ "$TWRP" = "true" ]
 then
-  curl -s https://raw.github.com/cyandream-devices/local_manifests/cd-4.4/twrp_manifest.xml -o .repo/local_manifests/twrp.xml
+  curl -s https://raw.githubusercontent.com/cyandream-devices/local_manifests/cd-4.4/twrp_manifest.xml -o .repo/local_manifests/twrp.xml
 fi
 
 check_result "Bootstrap failed"
